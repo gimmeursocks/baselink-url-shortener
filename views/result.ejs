@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('./partials/head'); %>
+</head>
+<body>
+    <header>
+        <%- include('./partials/header'); %>
+    </header>
+
+    <h1>Your Shortened URL</h1>
+    <p>Original URL: <%= originalUrl %></p>
+    <p>Shortened URL: <a href="<%= shortUrl %>"><%= shortUrl %></a></p>
+    <br>
+    <a href="/">Shorten another URL</a>
+
+    <footer>
+        <%- include('./partials/footer'); %>
+    </footer> 
+</body>
+</html>

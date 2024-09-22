@@ -1,0 +1,27 @@
+{
+  "name": "baselink",
+  "version": "1.0.0",
+  "description": "A simple Base64 URL shortener that quickly converts long URLs into short, easy-to-share links.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gimmeursocks/baselink-url-shortener.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gimmeursocks/baselink-url-shortener/issues"
+  },
+  "homepage": "https://github.com/gimmeursocks/baselink-url-shortener#readme",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.3",
+    "sequelize": "^6.37.3"
+  }
+}
