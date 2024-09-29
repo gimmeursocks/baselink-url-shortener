@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <%- include('./partials/head'); %>
-</head>
-<body>
-    <header>
-        <%- include('./partials/header'); %>
-    </header>
-
-    <h1>Your Shortened URL</h1>
-    <p>Original URL: <%= originalUrl %></p>
-    <p>Shortened URL: <a href="<%= shortUrl %>"><%= shortUrl %></a></p>
-    <br>
-    <a href="/">Shorten another URL</a>
-
-    <footer>
-        <%- include('./partials/footer'); %>
-    </footer> 
-</body>
-</html>
+<div class="d-flex justify-content-center">
+    <div class="mb-3 align-self-center text-center mt-5">
+        <h1>Your Shortened URL</h1>
+        <p>Original URL: <%= originalUrl %></p>
+        <p>Shortened URL: <a href="<%= shortUrl %>"><%= shortUrl %></a></p>
+        <a href="/">
+            <button class="btn btn-dark" type="submit">Shorten another URL</button>
+        </a>
+    </div>
+</div>

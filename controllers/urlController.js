@@ -2,17 +2,16 @@ require('dotenv').config();
 
 const { URL } = require('url');
 const Url = require('../models/urlModel');
-const { ValidationError } = require('sequelize');
 
 const generateUrl = () => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
     var shortUrl = '';
 
-    for (let i = 0; i < process.env.SHORT_URL_LENGTH; i++) {
+    const URL_LEN = process.env.SHORT_URL_LENGTH || 8;
+
+    for (let i = 0; i < URL_LEN; i++) {
         shortUrl += characters[Math.floor(Math.random() * 64)];
     }
-
-    console.log(shortUrl);
 
     return shortUrl;
 }
@@ -29,26 +28,34 @@ const normalizeUrl = (urlString) => {
 
 exports.shortenUrl = async (originalUrl) => {
     const normalizedUrl = normalizeUrl(originalUrl);
-    if (normalizedUrl) {
-        const urlEntry = await Url.findOne({ where: { originalUrl: normalizedUrl } });
 
-        if (urlEntry) {
-            return `/api/${urlEntry.shortUrl}`;
-        } else {
-            const shortUrl = generateUrl();
-            const newUrl = await Url.create({ originalUrl: normalizedUrl, shortUrl });
-            return `/api/${shortUrl}`;
-        }
-    } else {
+    if (!normalizedUrl) {
         throw new Error('Invalid URL');
     }
+
+    const urlEntry = await Url.findOne({ where: { originalUrl: normalizedUrl } });
+
+    if (urlEntry) {
+        return `/api/${urlEntry.shortUrl}`;
+    }
+
+    let shortUrl;
+
+    while (true) {
+        try {
+            shortUrl = generateUrl();
+            await Url.create({ originalUrl: normalizedUrl, shortUrl });
+            break;
+        } catch (error) {
+            console.log(`Collision detected, regenerating short URL...`);
+            continue;
+        }
+    }
+    return `/api/${shortUrl}`;
 };
 
 exports.redirectUrl = async (req, res) => {
     const shortUrl = req.params.shortUrl;
-
-    console.log("redirect")
-    console.log(shortUrl)
 
     try {
         const urlEntry = await Url.findOne({ where: { shortUrl } });

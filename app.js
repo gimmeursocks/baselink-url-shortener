@@ -1,6 +1,8 @@
 require('dotenv').config();
 
 const express = require('express');
+const expressLayouts = require('express-ejs-layouts');
+
 const app = express();
 const indexRoutes = require('./routes/index');
 const urlRoutes = require('./routes/url');
@@ -12,6 +14,11 @@ app.use(express.urlencoded({ extended: true }));
 // Serve Static
 app.use(express.static('public'));
 
+// Templating Engine
+app.use(expressLayouts);
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 // Routes
 app.use('/', indexRoutes);
 app.use('/api', urlRoutes);
@@ -21,10 +28,6 @@ app.use((req, res, next) => {
     console.log(`${req.method} request for ${req.url}`);
     next();
 });
-
-// Templating Engine
-app.set('view engine', 'ejs');
-app.set('views', './views');
 
 const port = process.env.PORT || 3000;
 
