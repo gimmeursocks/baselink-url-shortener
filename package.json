@@ -19,12 +19,15 @@
   },
   "homepage": "https://github.com/gimmeursocks/baselink-url-shortener#readme",
   "dependencies": {
+    "@braintree/sanitize-url": "^7.1.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-ejs-layouts": "^2.5.1",
     "mysql2": "^3.11.3",
-    "sequelize": "^6.37.3"
+    "normalize-url": "^8.0.1",
+    "sequelize": "^6.37.3",
+    "validator": "^13.12.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"

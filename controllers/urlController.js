@@ -1,10 +1,17 @@
 require('dotenv').config();
 
-const { URL } = require('url');
+// import normalizeUrl from 'normalize-url';
+const sanitizeUrl = require('@braintree/sanitize-url').sanitizeUrl;
+const validator = require('validator');
 const Url = require('../models/urlModel');
 
+let normalizeUrl;
+(async () => {
+  normalizeUrl = (await import('normalize-url')).default;
+})();
+
 const generateUrl = () => {
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
     var shortUrl = '';
 
     const URL_LEN = process.env.SHORT_URL_LENGTH || 8;
@@ -16,7 +23,7 @@ const generateUrl = () => {
     return shortUrl;
 }
 
-const normalizeUrl = (urlString) => {
+const goodUrl = (urlString) => {
     try {
         const url = new URL(urlString);
         return url.href;
@@ -27,11 +34,19 @@ const normalizeUrl = (urlString) => {
 };
 
 exports.shortenUrl = async (originalUrl) => {
-    const normalizedUrl = normalizeUrl(originalUrl);
+    const sanitizedUrl = sanitizeUrl(originalUrl);
 
-    if (!normalizedUrl) {
+    if (sanitizedUrl == 'about:blank') {
         throw new Error('Invalid URL');
     }
+
+    const validatedUrl = validator.isURL(sanitizedUrl);
+    
+    if(!validatedUrl){
+        throw new Error('Invalid URL');
+    }
+
+    const normalizedUrl = normalizeUrl(sanitizedUrl, {forceHttps: true, stripHash: true});
 
     const urlEntry = await Url.findOne({ where: { originalUrl: normalizedUrl } });
 

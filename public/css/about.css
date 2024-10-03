@@ -1,0 +1,19 @@
+  .gitlink, .gitlink:link, .gitlink:active, .gitlink:visited {
+    color: black;
+  }
+
+  .gitlink h3:hover {
+    font-weight: bold;
+  }
+
+  .gitlink h3 {
+    font-family: 'CommitMono';
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  canvas {
+    height: 50%;
+    width: 50%;
+    overflow: hidden;
+  }

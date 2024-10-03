@@ -13,7 +13,6 @@ router.post('/shorten', async (req, res) => {
     } catch (error) {
         console.log(error);
         if (error.message && error.message.includes('Invalid URL')) {
-            // res.redirect("/");
             res.render('index', { title: "Home", error: `${originalUrl} is not a valid URL` });
         } else {
             res.status(500).send('Error occurred');
